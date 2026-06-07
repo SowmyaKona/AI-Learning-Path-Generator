@@ -2,6 +2,11 @@
 
 An AI-powered personalized learning roadmap generator built using **LangChain**, **Google Gemini**, **Pydantic**, and **Streamlit**.
 
+---
+Hugging Face Live Demo: https://huggingface.co/spaces/SowmyaKona/Personalized_AI_Learning_Path_Generator
+
+--
+
 This project dynamically generates:
 - Personalized learning paths
 - Skill roadmaps
