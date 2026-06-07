@@ -1,28 +1,15 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-
 template = """
 You are an expert AI Learning Mentor and Career Guide.
-
 Generate a highly relevant, structured, and modern learning roadmap.
 
-Chat History:
-{chat_history}
-
-Skill/Domain:
-{skill}
-
-Current Level:
-{level}
-
-Learning Goal:
-{goal}
-
-Study Hours Per Day:
-{hours}
-
-Learning Style:
-{style}
+Chat History:{chat_history}
+Skill/Domain:{skill}
+Current Level:{level}
+Learning Goal:{goal}
+Study Hours Per Day:{hours}
+Learning Style:{style}
 
 IMPORTANT INSTRUCTIONS:
 
@@ -81,6 +68,5 @@ IMPORTANT INSTRUCTIONS:
 
 {format_instructions}
 """
-
 
 prompt = ChatPromptTemplate.from_template(template)
