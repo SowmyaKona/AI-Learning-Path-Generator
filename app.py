@@ -2,23 +2,19 @@ import streamlit as st
 import time
 from models import UserInput
 from chain import generate_learning_path
-from utils import generate_pdf
 from memory import chat_history
 from mentor import ask_mentor
 
 # =========================
 # PAGE CONFIG
 # =========================
-
 st.set_page_config(
     page_title="AI Learning Mentor",
     layout="wide"
 )
-
 # =========================
 # CUSTOM CSS — VIOLET THEME
 # =========================
-
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
@@ -264,7 +260,6 @@ div[data-testid="stInfoMessage"] {
 </style>
 """, unsafe_allow_html=True)
 
-
 # =========================
 # SESSION STATE
 # =========================
@@ -304,20 +299,16 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-
 # =========================
 # SIDEBAR
 # =========================
 
 st.sidebar.header("📘 Learner Profile")
 
-level = st.sidebar.selectbox(
-    "Current Level",
-    ["Beginner", "Intermediate", "Advanced"]
-)
+level = st.sidebar.selectbox("Current Level",
+    ["Beginner", "Intermediate", "Advanced"])
 
-goal_option = st.sidebar.selectbox(
-    "Learning Goal",
+goal_option = st.sidebar.selectbox("Learning Goal",
     [
         "Get Started", "Build Projects", "Crack Interviews",
         "Become Job Ready", "Become Data Analyst", "Become Data Scientist",
@@ -335,11 +326,9 @@ hours = st.sidebar.slider("Study Hours Per Day", 1, 10, 2)
 style = st.sidebar.radio("Learning Style", ["Theory Based", "Project Based"])
 
 st.sidebar.divider()
-
 if st.sidebar.button("🔄 Reset Learning Session"):
     chat_history.clear()
     st.sidebar.success("Chat history cleared!")
-
 
 # =========================
 # MAIN LAYOUT
@@ -348,12 +337,10 @@ if st.sidebar.button("🔄 Reset Learning Session"):
 main_col, dash_col = st.columns([3, 1], gap="large")
 
 with main_col:
-    skill = st.text_input(
-        "Enter Skill",
-        placeholder="e.g. LangChain, Python, Power BI, SQL..."
+    skill = st.text_input("Enter Skill",
+        placeholder="e.g. Data Science , GenAI, Python, SQL..."
     )
     generate_clicked = st.button("🚀 Generate Roadmap")
-
 
 with dash_col:
     st.markdown(f"""
@@ -372,11 +359,9 @@ with dash_col:
     </div>
     """, unsafe_allow_html=True)
 
-
 # =========================
 # GENERATE ROADMAP
 # =========================
-
 if generate_clicked:
 
     try:
