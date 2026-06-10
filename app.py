@@ -2,7 +2,6 @@ import streamlit as st
 import time
 from models import UserInput
 from chain import generate_learning_path
-from memory import chat_history
 from mentor import ask_mentor
 
 # =========================
@@ -321,13 +320,12 @@ if goal_option == "Custom":
 else:
     goal = goal_option
 
-hours = st.sidebar.slider("Study Hours Per Day", 1, 10, 2)
-
 style = st.sidebar.radio("Learning Style", ["Theory Based", "Project Based"])
 
 st.sidebar.divider()
 if st.sidebar.button("🔄 Reset Learning Session"):
-    chat_history.clear()
+    st.session_state.response = None
+    st.session_state.mentor_response = ""
     st.sidebar.success("Chat history cleared!")
 
 # =========================
@@ -369,7 +367,6 @@ if generate_clicked:
             skill=skill,
             level=level,
             goal=goal,
-            hours=hours,
             style=style
         )
 
@@ -387,29 +384,31 @@ if "response" in st.session_state and st.session_state.response is not None:
     response = st.session_state.response
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs(
-            ["📚 Roadmap", "🧠 Topics", "🎥 Resources", "💻 Projects", "🤖 AI Mentor"]
+            ["🧠 Topics", "📚 Roadmap", "🎥 Resources", "💻 Projects", "🤖 AI Mentor"]
         )
 
-    # ---- ROADMAP TAB ----
+    # ---- TOPICS TAB ----
     with tab1:
-        st.subheader("📚 Learning Roadmap")
-        for stage in response.learning_stages:
-            st.success(stage)
-
-        st.subheader("📅 Learning Phases")
-        for phase in response.learning_phases:
-            st.write(f"✅ {phase}")
-
-        st.subheader("📝 Summary")
-        st.write(response.learning_goal_summary)
-
-        # ---- TOPICS TAB ----
-    with tab2:
         st.subheader("🧠 Key Topics")
         for topic in response.key_topics:
             st.info(topic)
 
-        # ---- RESOURCES TAB ----
+    # ---- ROADMAP TAB ----
+    with tab2:
+        st.subheader("📅 Learning Phases")
+        for phase in response.learning_phases:
+            st.markdown(f"### {phase.title}")
+            st.write("📚 Topics To Cover:")
+
+            for topic in phase.topics:
+                st.write(f"• {topic}")
+            st.success(f"🎯 Outcome: {phase.outcome}")
+            st.divider()
+        st.subheader("📝 Summary")
+        st.write(response.learning_goal_summary)
+    
+    
+    # ---- RESOURCES TAB ----
     with tab3:
         st.subheader("📖 Recommended Resources")
         for resource in response.recommended_resources:
@@ -419,13 +418,13 @@ if "response" in st.session_state and st.session_state.response is not None:
         for channel in response.youtube_channels:
             st.write(f"📺 {channel}")
 
-        # ---- PROJECTS TAB ----
+    # ---- PROJECTS TAB ----
     with tab4:
         st.subheader("💻 Recommended Projects")
         for project in response.recommended_projects:
             st.write(f"🚀 {project}")
 
-        # ---- AI MENTOR TAB ----
+    # ---- AI MENTOR TAB ----
     with tab5:
         st.subheader("🤖 Ask AI Mentor")
         st.write("Have a doubt? Ask anything below.")
