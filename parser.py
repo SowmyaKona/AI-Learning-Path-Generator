@@ -1,15 +1,18 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import List
 from langchain_core.output_parsers import PydanticOutputParser
 
+class LearningPhase(BaseModel):
+    title: str
+    topics: List[str]
+    outcome: str
+    
 class LearningPath(BaseModel):
-    learning_stages: List[str]
     key_topics: List[str]
     learning_goal_summary: str
-    learning_phases: List[str]
+    learning_phases: List[LearningPhase]
     recommended_resources: List[str]
     youtube_channels: List[str]
     recommended_projects: List[str]
-    quiz_questions: List[str]
 
 parser = PydanticOutputParser(pydantic_object=LearningPath)
